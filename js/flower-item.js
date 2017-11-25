@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const FlowerContainer=styled.div`
-height: 300px;
-width: 300px;
+height: 200px;
+width: 200px;
 background-color: black; 
 margin: 5px;
 position: relative;
@@ -20,14 +20,14 @@ const FlowerDiv = styled.div.attrs({
     overflow: hidden;
     margin: auto;
     background-image: url(public/images/${props => props.flower}.jpg)};
-
+    background-size: cover;
 `;
 
 
 class FlowerItem extends Component{
     render(){
         return (
-            <FlowerContainer>
+            <FlowerContainer className="griditem">
                 <FlowerDiv flower={this.props.flower}/>
             </FlowerContainer>
         );
