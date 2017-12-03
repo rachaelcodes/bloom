@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Nav from './nav.js';
 import FlowerItem from './flower-item';
 import model from './flower_object';
 import styled from 'styled-components';
@@ -42,18 +43,28 @@ class App extends Component {
   constructor (props) {
     super(props);
 
-    this.state = {isotope: null};
+    this.state = {filter: '*'};
 
-    this.isoOptions = {
-      itemSelector: '.griditem',
-        layoutMode: 'masonry',
-        masonry: {
-          columnWidth: '.gridsizer'
-        }
-    };
+    this.handleButton = this.handleButton.bind(this);
+
+    // this.isoOptions = {
+    //   itemSelector: '.griditem',
+    //     layoutMode: 'masonry',
+    //     masonry: {
+    //       columnWidth: '.gridsizer'
+    //     }
+    // };
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    var iso = Isotope.data( document.getElementById('grid') );
+    console.log(iso);
+    iso.arrange({
+      filter: `${nextState.filter}`
+    });
 
+    iso.reloadItems();
+  }
 
   // componentDidMount(){
   //   if (!this.state.isotope) {
@@ -76,18 +87,27 @@ class App extends Component {
   //   this.iso = new Isotope(ReactDOM.findDOMNode(this.refs.grid), this.isoOptions);
   // }
 
+  handleButton(button){
+    console.log(button.target.value);
+    this.setState({
+      filter: `.${button.target.value}`
+    })
+  }
+
   render() {
     return (
      <Container>
         <Header className="App-header">
           <h1 className="App-title">Bloomin' Marvellous</h1>
         </Header>
-        <Content className="grid" id="grid" ref="grid" data-isotope='{ "itemSelector": ".griditem", "layoutMode": "fitRows" }'>
+        <Nav handleButton={this.handleButton}/>
+        <Content className="grid" id="grid" ref="grid" data-isotope={`{ "itemSelector": ".griditem", "layoutMode": "fitRows" }`}>
           <Sizer className='gridsizer' />
            {Object.keys(model).map((flowerType)=> {return (
-            <FlowerItem flower={flowerType} key={flowerType}/>  
+            <FlowerItem flower={flowerType} key={flowerType} colour={model[flowerType]["colour"]} variety={model[flowerType]["variety"]}/>  
           )})} 
         </Content>
+        <p style={{color: 'white'}} >Your selections: {this.state.filter}</p>
       </Container>
     );
   }

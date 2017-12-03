@@ -27,7 +27,7 @@ const FlowerDiv = styled.div.attrs({
 class FlowerItem extends Component{
     render(){
         return (
-            <FlowerContainer className="griditem">
+            <FlowerContainer className={`griditem ${this.props.colour} ${this.props.variety}`}>
                 <FlowerDiv flower={this.props.flower}/>
             </FlowerContainer>
         );
