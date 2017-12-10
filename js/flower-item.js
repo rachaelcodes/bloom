@@ -4,11 +4,13 @@ import styled from 'styled-components';
 const FlowerContainer=styled.div`
 height: 200px;
 width: 200px;
-background-color: black; 
-margin: 5px;
+background-color: #ffffff; 
+margin: 5px 5px 7px;
 position: relative;
 display: flex;
-border-radius: 5px;
+-webkit-box-shadow: 3px 3px 10px 0px rgba(187,187,187,1);
+-moz-box-shadow: 3px 3px 10px 0px rgba(187,187,187,1);
+box-shadow: 3px 3px 10px 0px rgba(187,187,187,1);
 `;
 
 const FlowerDiv = styled.div.attrs({

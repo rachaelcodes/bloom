@@ -10,26 +10,22 @@ import Isotope from 'isotope-layout';
 const Container = styled.div`
 margin-top: 0;
 position: absolute;
-background: #bc4e9c; 
-background: -webkit-linear-gradient(to bottom, #f80759, #bc4e9c);  
-background: linear-gradient(to bottom, #f80759, #bc4e9c); 
+background: whitesmoke; 
+background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
 min-height: 100vh;
 width: 100vw;
+overflow: scroll;
 `;
 
 const Header = styled.header`
-background: black;
-color: #f80759;
-text-align: center;
-padding: 0.25rem 0;
-width: 80%;
-max-width: 500px;
-margin: .5rem auto;
-border-radius: 5px;
+width: 100%;
+-webkit-box-shadow: 3px 3px 10px 0px rgba(187,187,187,1);
+-moz-box-shadow: 3px 3px 10px 0px rgba(187,187,187,1);
+box-shadow: 3px 3px 10px 0px rgba(187,187,187,1);
 `;
 
 const Content = styled.section`
-width: 80%;
+width: 90%;
 height: contain;
 margin: auto;
 `;
@@ -47,45 +43,23 @@ class App extends Component {
 
     this.handleButton = this.handleButton.bind(this);
 
-    // this.isoOptions = {
-    //   itemSelector: '.griditem',
-    //     layoutMode: 'masonry',
-    //     masonry: {
-    //       columnWidth: '.gridsizer'
-    //     }
-    // };
   }
 
   componentWillUpdate(nextProps, nextState) {
     var iso = Isotope.data( document.getElementById('grid') );
     console.log(iso);
+
+    iso.arrange({
+      filter: '*'
+    });
+    iso.reloadItems();
+
     iso.arrange({
       filter: `${nextState.filter}`
     });
 
-    iso.reloadItems();
+    
   }
-
-  // componentDidMount(){
-  //   if (!this.state.isotope) {
-  //     this.setState({
-  //       isotope: this.isotopeFunction()
-  //     });
-  //   } else {
-  //     iso.reloadItems();
-  //   }
-  // }
-
-  // componenteDidUpdate(){
-  //   if (this.state.isotope) {
-  //     iso.reloadItems();
-  //     iso.layout();
-  //   }
-  // }
-
-  // isotopeFunction() {
-  //   this.iso = new Isotope(ReactDOM.findDOMNode(this.refs.grid), this.isoOptions);
-  // }
 
   handleButton(button){
     console.log(button.target.value);
@@ -98,16 +72,14 @@ class App extends Component {
     return (
      <Container>
         <Header className="App-header">
-          <h1 className="App-title">Bloomin' Marvellous</h1>
+          <Nav handleButton={this.handleButton}/>
         </Header>
-        <Nav handleButton={this.handleButton}/>
         <Content className="grid" id="grid" ref="grid" data-isotope={`{ "itemSelector": ".griditem", "layoutMode": "fitRows" }`}>
           <Sizer className='gridsizer' />
            {Object.keys(model).map((flowerType)=> {return (
             <FlowerItem flower={flowerType} key={flowerType} colour={model[flowerType]["colour"]} variety={model[flowerType]["variety"]}/>  
           )})} 
         </Content>
-        <p style={{color: 'white'}} >Your selections: {this.state.filter}</p>
       </Container>
     );
   }
